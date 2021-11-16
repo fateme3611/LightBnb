@@ -9,14 +9,17 @@ id SERIAL PRIMARY KEY,
 email VARCHAR(255),
 "password" VARCHAR(255)
 );
+
 CREATE TABLE properties(
 id SERIAL PRIMARY KEY,
 owner_id INT REFERENCES users(id),
 title VARCHAR(255),
-description VARCHAR(255),
+description TEXT,
 thumbnail_photo_url VARCHAR(255),
 cover_photo_url VARCHAR(255),
 cost_per_night INT,
+parking_spaces INT,
+number_of_bathrooms INT,
 number_of_bedrooms INT,
 country VARCHAR(255),
 street VARCHAR(255),
