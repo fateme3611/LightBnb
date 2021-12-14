@@ -94,6 +94,21 @@ const getAllReservations = function (guest_id, limit = 10) {
 }
 exports.getAllReservations = getAllReservations;
 
+const addReservation = function (reservation) {
+  return pool.query(`
+    INSERT INTO reservations (start_date, end_date, property_id, guest_id)
+    VALUES ($1, $2, $3, $4) RETURNING *;
+  `, [reservation.start_date, reservation.end_date, reservation.property_id, reservation.guest_id])
+    .then((result) => {
+      return result.rows[0];
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+
+exports.addReservation = addReservation;
+
 /// Properties
 
 /**
@@ -105,7 +120,7 @@ exports.getAllReservations = getAllReservations;
 const getAllProperties = function (options, limit = 10) {
 
   const queryParams = [];
-  // 2
+
   let queryString = `
   SELECT properties.*, avg(property_reviews.rating) as average_rating
   FROM properties
@@ -113,7 +128,6 @@ const getAllProperties = function (options, limit = 10) {
   WHERE 1 = 1
   `;
 
-  // 3
   if (options.city) {
     queryParams.push(`%${options.city}%`);
     queryString += `
@@ -134,13 +148,9 @@ const getAllProperties = function (options, limit = 10) {
     `
   }
 
-  // 4
-
   queryString += `
   GROUP BY properties.id
   `
-
-
   if (options.minimum_rating) {
     queryParams.push(options.minimum_rating);
     queryString += `
