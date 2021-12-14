@@ -5,12 +5,15 @@ $(() => {
   window.views_manager = {};
 
   window.views_manager.show = function (item, data) {
-    $newPropertyForm.detach();
     $propertyListings.detach();
+    $newPropertyForm.detach();
     $searchPropertyForm.detach();
     $logInForm.detach();
     $signUpForm.detach();
     $newReservationForm.detach();
+    $updateReservationForm.detach();
+    $propertyReviews.detach();
+    $newReviewForm.detach();
 
     let dataTag = "";
 
@@ -75,7 +78,21 @@ $(() => {
         $(errorMessage).appendTo('#error-message');
         break;
       }
+      case 'showReviews': {
+        getReviewsByProperty(data)
+          .then(reviews => propertyReviews.addReviews(reviews))
+        $propertyReviews.appendTo($main);
+        break;
+      }
+      case 'newReview': {
+        dataTag = `<h4>${data}</h4>`;
+        $newReviewForm.appendTo($main);
+        $("#datatag").empty();
+        $(dataTag).appendTo("#datatag");
+        break;
+      }
     }
+
   }
 
 });

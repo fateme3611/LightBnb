@@ -89,3 +89,18 @@ const submitProperty = function (data) {
     data,
   });
 }
+
+const submitReview = function (data) {
+  return $.ajax({
+    method: "POST",
+    url: `api/reviews/${data.reservationId}`,
+    data,
+  })
+}
+
+const getReviewsByProperty = function (propertyId) {
+  const url = `api/reviews/${propertyId}`;
+  return $.ajax({
+    url,
+  });
+}
