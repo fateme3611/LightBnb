@@ -83,7 +83,7 @@ exports.addUser = addUser;
  */
 const getAllReservations = function (guest_id, limit = 10) {
   return pool
-    .query(`SELECT * FROM Reservations LIMIT $1`, [limit])
+    .query(`SELECT * FROM Reservations WHERE guest_id = $1 LIMIT $2`, [guest_id, limit])
     .then((result) => {
       return result.rows;
     })
