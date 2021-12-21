@@ -41,7 +41,7 @@ exports.getUserWithEmail = getUserWithEmail;
  */
 const getUserWithId = function (id) {
   return pool
-    .query(`SELECT top 1 * FROM Users WHERE id = $1`, [id])
+    .query(`SELECT * FROM Users WHERE id = $1 limit 1`, [id])
     .then((result) => {
       if (result.rows.length) {
         return result.rows[0];
@@ -148,15 +148,16 @@ const getAllProperties = function (options, limit = 10) {
   }
 
   if (options.minimum_price_per_night) {
-    queryParams.push(`%${options.minimum_price_per_night}%`);
-    queryString += `AND cost_per_night > ${queryParams.length}
+    queryParams.push(+options.minimum_price_per_night * 100);
+    queryString += `
+    AND cost_per_night >= $${queryParams.length}
     `;
   }
 
   if (options.maximum_price_per_night) {
-    queryParams.push(`%${options.maximum_price_per_night}%`);
+    queryParams.push(+options.maximum_price_per_night * 100);
     queryString += `
-    AND cost_per_night < ${queryParams.length}
+    AND cost_per_night <= $${queryParams.length}
     `
   }
 
@@ -164,9 +165,9 @@ const getAllProperties = function (options, limit = 10) {
   GROUP BY properties.id
   `
   if (options.minimum_rating) {
-    queryParams.push(options.minimum_rating);
+    queryParams.push(+options.minimum_rating);
     queryString += `
-    HAVING avg(property_reviews.rating) > $${queryParams.length}
+    HAVING avg(property_reviews.rating) >= $${queryParams.length}
     `;
   }
 
