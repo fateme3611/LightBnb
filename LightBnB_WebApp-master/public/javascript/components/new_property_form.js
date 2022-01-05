@@ -1,12 +1,12 @@
 $(() => {
 
-  
+
 
   const $newPropertyForm = $(`
   <form action="/api/properties" method="post" id="new-property-form" class="new-property-form">
       <div class="new-property-form__field-wrapper">
         <label for="new-property-form__title">Title</label>
-        <input type="text" name="title" placeholder="Title" id="new-property-form__title">
+        <input required type="text" name="title" placeholder="Title" id="new-property-form__title">
       </div>
       
       <div class="new-property-form__field-wrapper">
@@ -24,18 +24,18 @@ $(() => {
 
       <div class="new-property-form__field-wrapper">
         <label for="new-property-form__bedrooms"># 🛌</label>
-        <input placeholder="# 🛌" type="number" name="number_of_bedrooms" id="new-property-form__bedrooms">
+        <input required placeholder="# 🛌" type="number" name="number_of_bedrooms" id="new-property-form__bedrooms">
 
         <label for="new-property-form__bathrooms"># 🚽</label>
-        <input placeholder="# 🚽" type="number" name="number_of_bathrooms" id="new-property-form__rooms">
+        <input required placeholder="# 🚽" type="number" name="number_of_bathrooms" id="new-property-form__rooms">
 
         <label for="new-property-form__parking"># 🚘</label>
-        <input placeholder="# 🚘" type="number" name="parking_spaces" id="new-property-form__parking">
+        <input required placeholder="# 🚘" type="number" name="parking_spaces" id="new-property-form__parking">
       </div>
 
       <div class="new-property-form__field-wrapper">
         <label for="new-property-form__cost">Cost Per Night</label>
-        <input placeholder="Cost Per Night" type="number" name="cost_per_night" id="new-property-form__cost">
+        <input required placeholder="Cost Per Night" type="number" name="cost_per_night" id="new-property-form__cost">
       </div>
 
       <div class="new-property-form__field-wrapper">
@@ -52,7 +52,7 @@ $(() => {
 
       <div class="new-property-form__field-wrapper">
           <label for="new-property-form__street">Street</label>
-          <input placeholder="Street" type="text" name="street" id="new-property-form__street" />
+          <input required placeholder="Street" type="text" name="street" id="new-property-form__street" />
         </div>
 
         <div class="new-property-form__field-wrapper">
@@ -67,15 +67,15 @@ $(() => {
           
           <div class="new-property-form__field-wrapper">
             <label for="new-property-form__city">City</label>
-            <input placeholder="City" type="text" name="city" id="new-property-form__city" />
+            <input required placeholder="City" type="text" name="city" id="new-property-form__city" />
           </div>
           <div class="new-property-form__field-wrapper">
             <label for="new-property-form__state">Administrative Area</label>
-            <input placeholder="Administrative Area" type="text" name="province" id="new-property-form__state" />
+            <input required placeholder="Administrative Area" type="text" name="province" id="new-property-form__state" />
           </div>
           <div class="new-property-form__field-wrapper">
             <label for="new-property-form__zip">Postal Code</label>
-            <input placeholder="Postal Code" type="text" name="post_code" id="new-property-form__zip" />
+            <input required placeholder="Postal Code" type="text" name="post_code" id="new-property-form__zip" />
           </div>
         </div>
 
@@ -107,18 +107,18 @@ $(() => {
 
     const data = $(this).serialize();
     submitProperty(data)
-    .then(() => {
-      views_manager.show('listings');
-    })
-    .catch((error) => {
-      console.error(error);
-      views_manager.show('listings');
-    })
+      .then(() => {
+        views_manager.show('listings');
+      })
+      .catch((error) => {
+        console.error(error);
+        views_manager.show('listings');
+      })
   });
 
-  $('body').on('click', '#property-form__cancel', function() {
+  $('body').on('click', '#property-form__cancel', function () {
     views_manager.show('listings');
     return false;
   });
-  
+
 });

@@ -136,7 +136,7 @@ const getAllProperties = function (options, limit = 10) {
   let queryString = `
   SELECT properties.*, avg(property_reviews.rating) as average_rating, count(property_reviews.rating) as review_count  
   FROM properties
-  JOIN property_reviews ON properties.id = property_id
+  LEFT JOIN property_reviews ON properties.id = property_id
   WHERE 1 = 1
   `;
 
@@ -205,10 +205,10 @@ const addProperty = function (property) {
      province, post_code, active )
       values 
       ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)  RETURNING *;` ,
-      [property.owner_id, property.title, property.password, property.description,
+      [property.owner_id, property.title, property.description, property.thumbnail_photo_url,
       property.cover_photo_url, property.cost_per_night, property.parking_spaces, property.number_of_bathrooms,
       property.number_of_bedrooms, property.country, property.street, property.city,
-      property.province, property.post_code, property.active
+      property.province, property.post_code, true
       ])
     .then((result) => {
       return result.rows[0];
